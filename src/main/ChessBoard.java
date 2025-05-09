@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class ChessBoard {
 
-    public static final int squaresize = 100;
+    public static final int squareSize = 100;
 
     public void drawBoard(Graphics g)
     {
@@ -15,7 +15,7 @@ public class ChessBoard {
                 if( (row+col)%2 == 0)  g.setColor(new Color(255, 255, 204)); //Light squares
                 else g.setColor(new Color(102, 51, 0)); //Dark squares;
 
-                g.fillRect(col * squaresize, row * squaresize, squaresize, squaresize);
+                g.fillRect(col * squareSize, row * squareSize, squareSize, squareSize);
             }
         }
     }
