@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class ChessBoard {
 
-    private final int squaresize = 100;
+    public static final int squaresize = 100;
 
     public void drawBoard(Graphics g)
     {
