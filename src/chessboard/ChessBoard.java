@@ -1,10 +1,22 @@
-package main;
+package chessboard;
 
 import java.awt.*;
+import java.util.ArrayList;
 
+import chess_piece.*;
 public class ChessBoard {
 
     public static final int squareSize = 100;
+
+    public static ChessPiece[][] piece_squares = new ChessPiece[8][8];
+
+    public ChessBoard(ArrayList<ChessPiece> chess_list)
+    {
+        for(ChessPiece piece: chess_list)
+        {
+            piece_squares[piece.getRow()][piece.getCol()] = piece;
+        }
+    }
 
     public void drawBoard(Graphics g)
     {
