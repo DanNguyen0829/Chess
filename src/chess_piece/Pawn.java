@@ -1,5 +1,8 @@
 package chess_piece;
 
+import chessboard.*;
+import main.*;
+
 public class Pawn extends  ChessPiece{
     public Pawn(String color, int row, int col)
     {

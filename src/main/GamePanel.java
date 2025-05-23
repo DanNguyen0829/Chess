@@ -71,13 +71,13 @@ public class GamePanel extends JPanel implements Runnable{
     {
         if(Mouse.isPressed) {
             if (selected_piece == null) { //When we have not picked up a piece
+                
                 //Set the selected piece to the piece where the mouse has clicked based the location of the square
                 ChessPiece clicked_piece = ChessBoard.piece_squares[Mouse.y_position / ChessBoard.squareSize][Mouse.x_position / ChessBoard.squareSize];
                 //y: row and x: col
 
-                if (clicked_piece!=null && clicked_piece.getColor().equals(turnColor())) {
-                    selected_piece = clicked_piece; //The piece is only selected if it has correct color
-                }
+                selected_piece = clicked_piece; //The piece is only selected if it has correct color
+
             }
             else move_piece(); //When we have successfully "picked up" the piece, we can now move it
         }
@@ -87,6 +87,7 @@ public class GamePanel extends JPanel implements Runnable{
                 if (selected_piece.isValidMove)
                 {
                     selected_piece.updatePosition();
+                    removePiece(selected_piece.getRow(), selected_piece.getCol());
                     turn_counter++;
                 }
                 else selected_piece.reset();
@@ -142,16 +143,60 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void addPieces() //Adds the pieces into our list
     {
-        piece_lists.add(new King("white", 0, 0));
-        piece_lists.add(new King("black", 0, 1));
-        piece_lists.add(new Pawn("white",0, 2));
-        piece_lists.add(new Pawn("black", 0, 3));
+        // white pieces
+        piece_lists.add(new Pawn("white", 6, 0));
+        piece_lists.add(new Pawn("white", 6, 1));
+        piece_lists.add(new Pawn("white", 6, 2));
+        piece_lists.add(new Pawn("white", 6, 3));
+        piece_lists.add(new Pawn("white", 6, 4));
+        piece_lists.add(new Pawn("white", 6, 5));
+        piece_lists.add(new Pawn("white", 6, 6));
+        piece_lists.add(new Pawn("white", 6, 7));
+        piece_lists.add(new Rook("white", 7, 0));
+        piece_lists.add(new Knight("white", 7, 1));
+        piece_lists.add(new Bishop("white", 7, 2));
+        piece_lists.add(new Queen("white", 7, 3));
+        piece_lists.add(new King("white", 7, 4));
+        piece_lists.add(new Bishop("white", 7, 5));
+        piece_lists.add(new Knight("white", 7, 6));
+        piece_lists.add(new Rook("white", 7, 7));
+        // black pieces
+        piece_lists.add(new Pawn("black", 1, 0));
+        piece_lists.add(new Pawn("black", 1, 1));
+        piece_lists.add(new Pawn("black", 1, 2));
+        piece_lists.add(new Pawn("black", 1, 3));
+        piece_lists.add(new Pawn("black", 1, 4));
+        piece_lists.add(new Pawn("black", 1, 5));
+        piece_lists.add(new Pawn("black", 1, 6));
+        piece_lists.add(new Pawn("black", 1, 7));
+        piece_lists.add(new Rook("black", 0, 0));
+        piece_lists.add(new Knight("black", 0, 1));
+        piece_lists.add(new Bishop("black", 0, 2));
+        piece_lists.add(new Queen("black", 0, 3));
+        piece_lists.add(new King("black", 0, 4));
+        piece_lists.add(new Bishop("black", 0, 5));
+        piece_lists.add(new Knight("black", 0, 6));
+        piece_lists.add(new Rook("black", 0, 7));
     }
 
-    public String turnColor()
+    public void removePiece(int row, int col)
+    {
+        for(int i=0; i<piece_lists.size(); i++)
+        {
+            if((piece_lists.get(i)!=selected_piece))
+            {
+                if(piece_lists.get(i).getRow()==row && piece_lists.get(i).getCol()==col)
+                {
+                    piece_lists.remove(i);
+                }
+            }
+        }
+    }
+
+    /*public String turnColor()
     {
         if(turn_counter%2==0) return "black";
         else return "white";
-    }
+    }*/
 
 }
