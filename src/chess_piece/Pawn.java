@@ -10,4 +10,10 @@ public class Pawn extends  ChessPiece{
         if(color.equals("white")) this.setImage(getImage("/Piece/white_pawn"));
         else this.setImage(getImage("/Piece/black_pawn"));
     }
+
+    @Override
+    public boolean isValidMove(int col, int row)
+    {
+        return isValidMove;
+    }
 }
