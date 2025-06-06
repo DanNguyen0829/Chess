@@ -1,6 +1,7 @@
 package chess_piece;
 
 import chessboard.*;
+import main.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,6 +18,7 @@ public class ChessPiece {
     private int old_colPosition;
     private String color;
     public boolean isValidMove=true;
+    public boolean hasMove;
 
     //Variables associated with drawing the piece
     private int draw_row; //These are not their actual location on the piece_squares 2D array, but where to draw
@@ -35,6 +37,8 @@ public class ChessPiece {
 
         draw_row = ChessBoard.squareSize*row;
         draw_col = ChessBoard.squareSize*col;
+
+        hasMove = false;
     }
 
     //The next 3 methods are for displaying the pieces on the board
@@ -127,7 +131,14 @@ public class ChessPiece {
         return pieceType;
     }
 
-    //Updates the current position of the piece
+    //Equals method to compare two different chess pieces based what type of piece they are and their colors
+    public boolean equals(ChessPiece other)
+    {
+        return this.pieceType.equals(other.getPieceType()) && this.color.equals(other.getColor());
+    }
+
+
+    //Updates the current position of the piece to where the mouse is released
     public void updatePosition()
     {
         draw_col = colPosition* ChessBoard.squareSize;
@@ -137,6 +148,20 @@ public class ChessPiece {
         old_colPosition = colPosition;
         old_rowPosition = rowPosition;
     }
+
+    //Updates the current position of the piece depending on the parameters
+    public void updatePosition(int col, int row)
+    {
+        colPosition = col;
+        rowPosition = row;
+        draw_col = colPosition* ChessBoard.squareSize;
+        draw_row = rowPosition*ChessBoard.squareSize;
+        ChessBoard.piece_squares[rowPosition][colPosition] = this;
+        ChessBoard.piece_squares[old_rowPosition][old_colPosition] = null;
+        old_colPosition = colPosition;
+        old_rowPosition = rowPosition;
+    }
+
 
     //Checks if the piece is within the chessBoard
     public boolean is_within_board(int col, int row)
@@ -161,4 +186,88 @@ public class ChessPiece {
         draw_row = rowPosition*ChessBoard.squareSize;
     }
 
+    //This method is to check whether the king is in check or not
+    public boolean isInCheck()
+    {
+        for(ChessPiece piece: GamePanel.piece_lists)
+        {
+            if(this.getColor().equals("white"))
+            {
+                //Scans to see whether the black pieces is checking the white king
+                if(piece.getColor().equals("black") && piece.isValidMove(GamePanel.getKingCol("white"), GamePanel.getKingRow("white")))
+                {
+                    return true;
+                }
+            }
+            else {
+                if(piece.getColor().equals("white") && piece.isValidMove(GamePanel.getKingCol("black"), GamePanel.getKingRow("black")))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    public boolean isInCheck(int col, int row) //Checks to see whether moving to this square will cause the piece to be in check
+    {
+        ChessPiece temp = ChessBoard.piece_squares[row][col];
+        ChessBoard.piece_squares[row][col] = this;
+        ChessBoard.piece_squares[this.getOld_rowPosition()][this.getColPosition()] = null;
+
+        for(ChessPiece piece: GamePanel.piece_lists)
+        {
+            if(this.getColor().equals("white"))
+            {
+                //Scans to see whether the black pieces is checking the white king
+                if(piece != temp && piece.getColor().equals("black") && piece.isValidMove(GamePanel.getKingCol("white"), GamePanel.getKingRow("white")))
+                {
+                    ChessBoard.piece_squares[row][col] = temp;
+                    ChessBoard.piece_squares[this.getOld_rowPosition()][this.getColPosition()] = this;
+                    return true;
+                }
+            }
+            else {
+                if(piece != temp && piece.getColor().equals("white") && piece.isValidMove(GamePanel.getKingCol("black"), GamePanel.getKingRow("black")))
+                {
+                    ChessBoard.piece_squares[row][col] = temp;
+                    ChessBoard.piece_squares[this.getOld_rowPosition()][this.getColPosition()] = this;
+                    return true;
+                }
+            }
+        }
+        ChessBoard.piece_squares[row][col] = temp;
+        ChessBoard.piece_squares[this.getOld_rowPosition()][this.getColPosition()] = this;
+        return false;
+    }
+
+    //This method checks to see if the piece has any legal move
+    public boolean hasPossibleMove()
+    {
+        for(int row=0; row<8; row++)
+        {
+            for(int col=0; col<8; col++)
+                if(this.isValidMove(col, row))
+                {
+                    return true; //If the piece can move to a square then return false
+                }
+        }
+
+        return false;
+    }
+
+    //These methods are mainly for the king
+
+    //Return whether the king can castle short side
+    public boolean canCastleShortSide()
+    {
+        return false;
+    }
+
+    //Return whether the king can castle long side
+    public boolean canCastleLongSide()
+    {
+        return false;
+    }
 }

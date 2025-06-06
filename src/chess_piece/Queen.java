@@ -41,6 +41,9 @@ public class Queen extends  ChessPiece{
                 checkRow += rowStep;
                 checkCol += colStep;
             }
+            boolean beingChecked = isInCheck(col, row);
+            if(beingChecked) return false;
+
             return true;
         }
 
@@ -51,6 +54,9 @@ public class Queen extends  ChessPiece{
                     return false;
                 }
             }
+            boolean beingChecked = isInCheck(col, row);
+            if(beingChecked) return false;
+
             return true;
         }
 
@@ -61,6 +67,9 @@ public class Queen extends  ChessPiece{
                     return false;
                 }
             }
+            boolean beingChecked = isInCheck(col, row);
+            if(beingChecked) return false;
+
             return true;
         }
 

@@ -25,8 +25,10 @@ public class Bishop extends  ChessPiece{
         }
         int colDirection = 0;
         int rowDirection = 0;
+
         if (col > this.getColPosition()) colDirection = 1;
         else colDirection = -1;
+
         if (row > this.getOld_rowPosition()) rowDirection = 1;
         else rowDirection = -1;
 
@@ -39,6 +41,10 @@ public class Bishop extends  ChessPiece{
             aheadCol += colDirection;
             aheadRow += rowDirection;
         }
+
+        boolean beingChecked = isInCheck(col, row);
+        if(beingChecked) return false;
+
         return true;
     }
 }

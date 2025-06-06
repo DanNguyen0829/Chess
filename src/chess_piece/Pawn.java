@@ -12,8 +12,65 @@ public class Pawn extends  ChessPiece{
     }
 
     @Override
-    public boolean isValidMove(int col, int row)
-    {
-        return isValidMove;
+    public boolean isValidMove(int col, int row) {
+        if (!this.is_within_board(col, row)) return false; //If not in board then return false
+        if (this.did_not_move(col, row)) return false;
+
+        int colDiff = Math.abs(col - this.getColPosition());
+        int rowDiff = row - this.getOld_rowPosition();
+
+        if (getColor().equals("white")){
+            if(colDiff==0 && !hasMove && rowDiff==-2 && ChessBoard.piece_squares[row][col]==null)
+            {
+                boolean beingChecked = isInCheck(col, row);
+                if(beingChecked) return false;
+
+                return true;
+            }
+            else if(colDiff==0 && rowDiff==-1 && ChessBoard.piece_squares[row][col]==null)
+            {
+                boolean beingChecked = isInCheck(col, row);
+
+                if(beingChecked) return false;
+
+                return true;
+            }
+            else if(colDiff==1 && rowDiff==-1 && ChessBoard.piece_squares[row][col]!=null && !this.getColor().equals(ChessBoard.piece_squares[row][col].getColor()))
+            {
+                boolean beingChecked = isInCheck(col, row);
+
+                if(beingChecked) return false;
+
+                return true;
+            }
+        }
+        else
+        {
+            if(colDiff==0 && !hasMove && rowDiff==2 && ChessBoard.piece_squares[row][col]==null)
+            {
+
+                boolean beingChecked = isInCheck(col, row);
+                if(beingChecked) return false;
+
+                return true;
+            }
+            else if(colDiff==0 && rowDiff==1 && ChessBoard.piece_squares[row][col]==null)
+            {
+
+                boolean beingChecked = isInCheck(col, row);
+                if(beingChecked) return false;
+
+                return true;
+            }
+            else if(colDiff==1 && rowDiff==1 && ChessBoard.piece_squares[row][col]!=null && !this.getColor().equals(ChessBoard.piece_squares[row][col].getColor()))
+            {
+
+                boolean beingChecked = isInCheck(col, row);
+                if(beingChecked) return false;
+
+                return true;
+            }
+        }
+        return false;
     }
 }

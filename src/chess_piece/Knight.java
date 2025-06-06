@@ -22,6 +22,10 @@ public class Knight extends  ChessPiece{
             {
                 return false;
             }
+
+            boolean beingChecked = isInCheck(col, row);
+            if(beingChecked) return false;
+
             return true;
         }
         return false;

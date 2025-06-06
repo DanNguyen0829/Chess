@@ -31,4 +31,18 @@ public class ChessBoard {
             }
         }
     }
+
+    //Count how many pieces are on the board
+    public int howManyPieceLeft()
+    {
+        int count=0;
+        for(int r=0; r<8; r++)
+        {
+            for(int c=0; c<8; c++)
+            {
+                if(piece_squares[r][c]!=null) count++;
+            }
+        }
+        return count;
+    }
 }

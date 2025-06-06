@@ -18,10 +18,9 @@ public class Rook extends  ChessPiece{
 
         if (currentRow != row && currentCol != col) return false;
 
-        if(ChessBoard.piece_squares[row][col] != null && ChessBoard.piece_squares[row][col].getColor().equals(this.getColor()))
-        {
-            return false;
-        }
+        boolean beingChecked = isInCheck(col, row);
+
+        if(beingChecked) return false;
 
         if (currentCol == col)
         {
@@ -70,6 +69,13 @@ public class Rook extends  ChessPiece{
                 }
             }
         }
+
+        if(ChessBoard.piece_squares[row][col] != null && ChessBoard.piece_squares[row][col].getColor().equals(this.getColor()))
+        {
+            return false;
+        }
+
+
         return true;
     }
 }
